@@ -1,0 +1,168 @@
+{{-- PATH: resources/views/auth/login.blade.php --}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — NeuroFocus नाडी</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body {
+            background: #030712;
+            background-image:
+                radial-gradient(ellipse at 20% 20%, rgba(124,77,255,0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0,188,212,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(0,230,118,0.05) 0%, transparent 70%);
+            min-height: 100vh;
+        }
+        .glass {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .input-field {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .input-field::placeholder { color: rgba(255,255,255,0.25); }
+        .input-field:focus {
+            outline: none;
+            border-color: #7c4dff;
+            background: rgba(124,77,255,0.08);
+            box-shadow: 0 0 0 3px rgba(124,77,255,0.15);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #7c4dff 0%, #00bcd4 100%);
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(124,77,255,0.4);
+        }
+        .btn-primary:active { transform: translateY(0); }
+        .logo-ring {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(124,77,255,0.3), rgba(0,188,212,0.3));
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+            border: 1px solid rgba(124,77,255,0.4);
+            animation: glow 3s ease-in-out infinite;
+        }
+        @keyframes glow {
+            0%,100% { box-shadow: 0 0 20px rgba(124,77,255,0.3); }
+            50% { box-shadow: 0 0 40px rgba(124,77,255,0.6), 0 0 80px rgba(0,188,212,0.2); }
+        }
+        .floating-dot {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: float 8s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%,100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+
+    {{-- Floating decorative dots --}}
+    <div class="floating-dot" style="width:300px;height:300px;background:#7c4dff;top:-100px;left:-100px;animation-delay:0s;"></div>
+    <div class="floating-dot" style="width:200px;height:200px;background:#00bcd4;bottom:-50px;right:-50px;animation-delay:3s;"></div>
+    <div class="floating-dot" style="width:100px;height:100px;background:#00e676;top:50%;right:10%;animation-delay:1.5s;"></div>
+
+    <div class="min-h-screen flex items-center justify-center p-4 relative z-10">
+        <div class="w-full max-w-sm">
+
+            {{-- Logo --}}
+            <div class="text-center mb-8">
+                <div class="logo-ring">
+                    <span style="font-size:36px;">🧠</span>
+                </div>
+                <h1 style="font-size:28px;font-weight:900;background:linear-gradient(135deg,#7c4dff,#00bcd4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+                    NeuroFocus
+                </h1>
+                <p style="color:rgba(255,255,255,0.3);font-size:13px;margin-top:4px;letter-spacing:2px;">
+                    नाडी • AI WELLNESS
+                </p>
+            </div>
+
+            {{-- Card --}}
+            <div class="glass rounded-3xl p-8">
+
+                <h2 style="font-size:22px;font-weight:800;color:white;margin-bottom:6px;">
+                    Welcome back
+                </h2>
+                <p style="color:rgba(255,255,255,0.3);font-size:13px;margin-bottom:28px;">
+                    Sign in to your account
+                </p>
+
+                {{-- Errors --}}
+                @if($errors->any())
+                <div style="background:rgba(255,82,82,0.1);border:1px solid rgba(255,82,82,0.3);border-radius:12px;padding:12px;margin-bottom:20px;">
+                    @foreach($errors->all() as $error)
+                        <p style="color:#ff5252;font-size:12px;"> {{ $error }}</p>
+                    @endforeach
+                </div>
+                @endif
+
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+
+                    <div style="margin-bottom:16px;">
+                        <label style="color:rgba(255,255,255,0.4);font-size:11px;font-weight:600;letter-spacing:1px;display:block;margin-bottom:8px;">
+                            EMAIL ADDRESS
+                        </label>
+                        <input type="email" name="email" value="{{ old('email') }}"
+                            class="input-field" placeholder="your@email.com" required />
+                    </div>
+
+                    <div style="margin-bottom:28px;">
+                        <label style="color:rgba(255,255,255,0.4);font-size:11px;font-weight:600;letter-spacing:1px;display:block;margin-bottom:8px;">
+                            PASSWORD
+                        </label>
+                        <input type="password" name="password"
+                            class="input-field" placeholder="••••••••" required />
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        Sign In →
+                    </button>
+                </form>
+
+                <div style="text-align:center;margin-top:20px;">
+                    <span style="color:rgba(255,255,255,0.25);font-size:13px;">
+                        New here?
+                    </span>
+                    <a href="{{ route('register') }}"
+                       style="color:#7c4dff;font-weight:700;font-size:13px;text-decoration:none;margin-left:6px;">
+                        Create account
+                    </a>
+                </div>
+            </div>
+
+            <p style="text-align:center;color:rgba(255,255,255,0.1);font-size:11px;margin-top:24px;">
+                End-to-end encrypted • Your data stays private
+            </p>
+        </div>
+    </div>
+</body>
+</html>
