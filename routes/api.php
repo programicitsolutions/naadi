@@ -1,5 +1,5 @@
 
-
+<?php 
 // ============================================================
 // FILE: routes/api.php
 // ============================================================
@@ -44,3 +44,5 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/test-notification', [CoupleController::class, 'testNotification']);
     });
 });
+
+?>
