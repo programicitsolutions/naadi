@@ -1,4 +1,5 @@
-<?php 
+
+
 // ============================================================
 // FILE: routes/api.php
 // ============================================================
@@ -33,10 +34,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/monthly', [ReportController::class, 'monthly']);
     });
 
-    // AI
-    Route::prefix('ai')->group(function () {
-        Route::get('/insights',   [AIController::class, 'getInsights']);
-        Route::get('/recovery',   [AIController::class, 'recoveryScore']);
-        Route::get('/peak-hours', [AIController::class, 'peakHours']);
+    // Couple mode
+    Route::prefix('couple')->group(function () {
+        Route::post('/generate-code',     [CoupleController::class, 'generateCode']);
+        Route::post('/link',              [CoupleController::class, 'link']);
+        Route::get('/status',             [CoupleController::class, 'status']);
+        Route::post('/save-token',        [CoupleController::class, 'saveToken']);
+        Route::post('/unlink',            [CoupleController::class, 'unlink']);
+        Route::post('/test-notification', [CoupleController::class, 'testNotification']);
     });
 });
